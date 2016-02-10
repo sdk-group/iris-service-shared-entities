@@ -85,7 +85,7 @@ class SharedEntities {
 					namespace: 'timezone',
 					entities: {
 						timezone: org_merged.org_timezone,
-						current_time: tm.format("X")
+						current_time: tm.format("x")
 					}
 				};
 			})
