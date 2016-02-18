@@ -2,7 +2,8 @@
 
 let emitter = require("global-queue");
 let moment = require('moment-timezone');
-let ServiceApi = require('resource-management-framework').ServiceApi;
+let ServiceApi = require('resource-management-framework')
+	.ServiceApi;
 
 class SharedEntities {
 	constructor() {
@@ -15,6 +16,13 @@ class SharedEntities {
 	}
 
 	//API
+	actionFieldsDescription({
+		workstation
+	}) {
+		return {};
+	}
+
+
 	actionServices({}) {
 		return this.iris.getService({
 			query: {}
