@@ -25,8 +25,14 @@ class SharedEntities {
 
 	actionServices({}) {
 		return this.iris.getService({
-			query: {}
-		});
+				query: {}
+			})
+			.then((res) => {
+				return {
+					namespace: 'services',
+					entities: res
+				};
+			});
 	}
 
 	actionOffice({
