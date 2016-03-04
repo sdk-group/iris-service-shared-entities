@@ -38,7 +38,7 @@ class SharedEntities {
 	actionOffice({
 		workstation
 	}) {
-		return this.emitter.addTask('queue', {
+		return this.emitter.addTask('workstation', {
 				_action: 'workstation-organization-data',
 				workstation
 			})
@@ -61,7 +61,7 @@ class SharedEntities {
 	actionOrganizationChain({
 		workstation
 	}) {
-		return this.emitter.addTask('queue', {
+		return this.emitter.addTask('workstation', {
 				_action: 'workstation-organization-data',
 				workstation
 			})
@@ -84,7 +84,7 @@ class SharedEntities {
 	actionTimezone({
 		workstation
 	}) {
-		return this.emitter.addTask('queue', {
+		return this.emitter.addTask('workstation', {
 				_action: 'workstation-organization-data',
 				workstation
 			})
