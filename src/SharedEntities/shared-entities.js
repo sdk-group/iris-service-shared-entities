@@ -42,6 +42,7 @@ class SharedEntities {
 				_action: 'workstation-organization-data',
 				workstation
 			})
+			.then(res => res[workstation])
 			.then(({
 				ws,
 				org_addr,
@@ -65,6 +66,7 @@ class SharedEntities {
 				_action: 'workstation-organization-data',
 				workstation
 			})
+			.then(res => res[workstation])
 			.then(({
 				ws,
 				org_addr,
@@ -88,6 +90,7 @@ class SharedEntities {
 				_action: 'workstation-organization-data',
 				workstation
 			})
+			.then(res => res[workstation])
 			.then(({
 				ws,
 				org_addr,
