@@ -1,13 +1,12 @@
 'use strict'
 
-let emitter = require("global-queue");
-let moment = require('moment-timezone');
+
 let ServiceApi = require('resource-management-framework')
 	.ServiceApi;
 
 class SharedEntities {
 	constructor() {
-		this.emitter = emitter;
+		this.emitter = message_bus;
 	}
 
 	init() {
