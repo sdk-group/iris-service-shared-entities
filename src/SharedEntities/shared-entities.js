@@ -23,8 +23,12 @@ class SharedEntities {
 
 
 	actionServices({}) {
-		return this.iris.getService({
-				query: {}
+		console.log("SE SERVICE");
+		return this.iris.getServiceIds()
+			.then((res) => {
+				return this.iris.getService({
+					keys: res
+				})
 			})
 			.then((res) => {
 				return {
@@ -37,6 +41,7 @@ class SharedEntities {
 	actionOffice({
 		workstation
 	}) {
+		console.log("SE OFFICE");
 		return this.emitter.addTask('workstation', {
 				_action: 'workstation-organization-data',
 				workstation
@@ -52,15 +57,13 @@ class SharedEntities {
 					namespace: 'office',
 					entities: org_merged
 				};
-			})
-			.catch(err => {
-				console.log("SE OFFICE ERR", err.stack);
 			});
 	}
 
 	actionOrganizationChain({
 		workstation
 	}) {
+		console.log("SE CHAIN");
 		return this.emitter.addTask('workstation', {
 				_action: 'workstation-organization-data',
 				workstation
@@ -76,15 +79,14 @@ class SharedEntities {
 					namespace: 'hierarchy',
 					entities: org_chain
 				};
-			})
-			.catch(err => {
-				console.log("SE ORGCHAIN ERR", err.stack);
 			});
 	}
 
 	actionTimezone({
 		workstation
 	}) {
+		console.log("SE TIMEZONE");
+
 		return this.emitter.addTask('workstation', {
 				_action: 'workstation-organization-data',
 				workstation
@@ -104,9 +106,6 @@ class SharedEntities {
 						current_time: tm.format("x")
 					}
 				};
-			})
-			.catch(err => {
-				console.log("SE ORG TZ ERR", err.stack);
 			});
 	}
 
