@@ -22,13 +22,25 @@ class SharedEntities {
 	}
 
 
-	actionServices({}) {
+	actionServices({
+		workstation
+	}) {
 		console.log("SE SERVICE");
-		return this.iris.getServiceIds()
-			.then((res) => {
+		return Promise.props({
+				ws: this.emitter.addTask('workstation', {
+					_action: 'workstation',
+					workstation
+				}),
+				services: this.iris.getServiceIds()
+			})
+			.then(({
+				ws,
+				services
+			}) => {
+				let keys = ws.provides || services;
 				return this.iris.getService({
-					keys: res
-				})
+					keys
+				});
 			})
 			.then((res) => {
 				return {
@@ -63,7 +75,7 @@ class SharedEntities {
 	actionOrganizationChain({
 		workstation
 	}) {
-		console.log("SE CHAIN");
+		console.log("SE CHAIN", workstation);
 		return this.emitter.addTask('workstation', {
 				_action: 'workstation-organization-data',
 				workstation
@@ -75,6 +87,7 @@ class SharedEntities {
 				org_chain,
 				org_merged
 			}) => {
+				// console.log("CHAIN END", org_chain)
 				return {
 					namespace: 'hierarchy',
 					entities: org_chain
