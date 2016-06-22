@@ -122,6 +122,32 @@ class SharedEntities {
 			});
 	}
 
+
+	actionPriorities({
+		workstation
+	}) {
+		console.log("SE PRIORITIES");
+
+		return this.emitter.addTask('workstation', {
+				_action: 'workstation-organization-data',
+				workstation
+			})
+			.then(res => res[workstation])
+			.then(({
+				ws,
+				org_addr,
+				org_chain,
+				org_merged
+			}) => {
+				return this.iris.getGlobal('priority_description');
+			})
+			.then((entities) => {
+				return {
+					namespace: 'priorities',
+					entities
+				};
+			});
+	}
 }
 
 module.exports = SharedEntities;
