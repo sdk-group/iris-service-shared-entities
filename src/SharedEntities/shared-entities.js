@@ -15,12 +15,19 @@ class SharedEntities {
 	}
 
 	//API
+
 	actionFieldsDescription({
 		workstation
 	}) {
 		return {};
 	}
 
+	makeResponse(namespace, entities) {
+		return {
+			namespace,
+			entities
+		}
+	}
 
 	actionServices({
 		workstation
@@ -42,12 +49,7 @@ class SharedEntities {
 					keys
 				});
 			})
-			.then((res) => {
-				return {
-					namespace: 'services',
-					entities: res
-				};
-			});
+			.then(entities => this.makeResponse('services', entities));
 	}
 
 	actionOffice({
@@ -64,12 +66,7 @@ class SharedEntities {
 				org_addr,
 				org_chain,
 				org_merged
-			}) => {
-				return {
-					namespace: 'office',
-					entities: org_merged
-				};
-			});
+			}) => this.makeResponse('office', org_merged));
 	}
 
 	actionOrganizationChain({
@@ -86,13 +83,7 @@ class SharedEntities {
 				org_addr,
 				org_chain,
 				org_merged
-			}) => {
-				// console.log("CHAIN END", org_chain)
-				return {
-					namespace: 'hierarchy',
-					entities: org_chain
-				};
-			});
+			}) => this.makeResponse('hierarchy', org_chain));
 	}
 
 	actionTimezone({
@@ -113,13 +104,10 @@ class SharedEntities {
 			}) => {
 				let tm = moment.utc();
 				return {
-					namespace: 'timezone',
-					entities: {
-						timezone: org_merged.org_timezone,
-						current_time: tm.format("x")
-					}
+					timezone: org_merged.org_timezone,
+					current_time: tm.format("x")
 				};
-			});
+			}).then(entities => this.makeResponse('timezone', entities));
 	}
 
 
@@ -141,12 +129,7 @@ class SharedEntities {
 			}) => {
 				return this.iris.getGlobal('priority_description');
 			})
-			.then((entities) => {
-				return {
-					namespace: 'priorities',
-					entities
-				};
-			});
+			.then(entities => this.makeResponse('priorities', entities));
 	}
 }
 
