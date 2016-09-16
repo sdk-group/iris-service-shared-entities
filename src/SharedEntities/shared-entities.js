@@ -142,9 +142,18 @@ class SharedEntities {
 	actionOperators({
 		workstation
 	}) {
-		return patchwerk.get('operator', {
-			counter: '*'
-		}).then(entities => this.makeResponse('operators', entities))
+		console.log('SE operators');
+		return this.emitter.addTask('workstation', {
+				_action: 'workstation-organization-data',
+				workstation
+			})
+			.then(res => {
+				return patchwerk.get('operator', {
+					counter: '*',
+					department: res[workstation].ws.attached_to
+				});
+			})
+			.then(entities => this.makeResponse('operators', entities))
 	}
 }
 
