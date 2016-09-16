@@ -1,8 +1,11 @@
 'use strict'
 
+const emitter = require('global-queue');
+const patchwerk = require('patchwerk')(emitter);
 
 let ServiceApi = require('resource-management-framework')
 	.ServiceApi;
+
 
 class SharedEntities {
 	constructor() {
@@ -32,7 +35,6 @@ class SharedEntities {
 	actionServices({
 		workstation
 	}) {
-		console.log("SE SERVICE");
 		return Promise.props({
 				ws: this.emitter.addTask('workstation', {
 					_action: 'workstation',
@@ -55,7 +57,6 @@ class SharedEntities {
 	actionOffice({
 		workstation
 	}) {
-		console.log("SE OFFICE");
 		return this.emitter.addTask('workstation', {
 				_action: 'workstation-organization-data',
 				workstation
@@ -130,6 +131,20 @@ class SharedEntities {
 				return this.iris.getGlobal('priority_description');
 			})
 			.then(entities => this.makeResponse('priorities', entities));
+	}
+
+	actionWorkstations({
+		workstation
+	}) {
+
+	}
+
+	actionOperators({
+		workstation
+	}) {
+		return patchwerk.get('operator', {
+			counter: '*'
+		}).then(entities => this.makeResponse('operators', entities))
 	}
 }
 
