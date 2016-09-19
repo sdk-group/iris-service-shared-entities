@@ -136,7 +136,18 @@ class SharedEntities {
 	actionWorkstations({
 		workstation
 	}) {
-
+		return this.emitter.addTask('workstation', {
+				_action: 'workstation-organization-data',
+				workstation
+			})
+			.then(res => {
+				return patchwerk.get('workstation', {
+					counter: '*',
+					type: ['control-panel', 'terminal', 'reception'],
+					department: res[workstation].ws.attached_to
+				});
+			})
+			.then(entities => this.makeResponse('workstations', entities))
 	}
 
 	actionOperators({
