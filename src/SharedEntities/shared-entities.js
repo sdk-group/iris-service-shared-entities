@@ -147,7 +147,7 @@ class SharedEntities {
 					department: res[workstation].ws.attached_to
 				});
 			})
-			.then(entities => this.makeResponse('workstations', entities))
+			.then(entities => this.makeResponse('workstations', _.keyBy(entities, '@id')))
 	}
 
 	actionOperators({
@@ -164,7 +164,7 @@ class SharedEntities {
 					department: res[workstation].ws.attached_to
 				});
 			})
-			.then(entities => this.makeResponse('operators', entities))
+			.then(entities => this.makeResponse('operators', _.keyBy(entities, '@id')))
 	}
 }
 
