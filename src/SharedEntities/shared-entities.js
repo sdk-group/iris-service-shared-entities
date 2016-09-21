@@ -134,34 +134,38 @@ class SharedEntities {
 	}
 
 	actionWorkstations({
-		workstation
+		workstation,
+		department
 	}) {
-		return this.emitter.addTask('workstation', {
-				_action: 'workstation-organization-data',
-				workstation
-			})
-			.then(res => {
+		let getDepartment = _.isEmpty(department) ? this.emitter.addTask('workstation', {
+			_action: 'workstation-organization-data',
+			workstation
+		}).then(res => res[workstation].ws.attached_to) : Promise.reslove(department);
+
+		return getDepartment.then(res => {
 				return patchwerk.get('workstation', {
 					counter: '*',
 					type: ['control-panel', 'terminal', 'reception'],
-					department: res[workstation].ws.attached_to
+					department: res
 				});
 			})
 			.then(entities => this.makeResponse('workstations', _.keyBy(entities, '@id')))
 	}
 
 	actionOperators({
-		workstation
+		workstation,
+		department
 	}) {
 		console.log('SE operators');
-		return this.emitter.addTask('workstation', {
-				_action: 'workstation-organization-data',
-				workstation
-			})
-			.then(res => {
+		let getDepartment = _.isEmpty(department) ? this.emitter.addTask('workstation', {
+			_action: 'workstation-organization-data',
+			workstation
+		}).then(res => res[workstation].ws.attached_to) : Promise.reslove(department);
+
+		return getDepartment.then(res => {
 				return patchwerk.get('operator', {
 					counter: '*',
-					department: res[workstation].ws.attached_to
+					department: res
 				});
 			})
 			.then(entities => this.makeResponse('operators', _.keyBy(entities, '@id')))
