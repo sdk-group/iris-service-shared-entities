@@ -140,7 +140,7 @@ class SharedEntities {
 		let getDepartment = _.isEmpty(department) ? this.emitter.addTask('workstation', {
 			_action: 'workstation-organization-data',
 			workstation
-		}).then(res => res[workstation].ws.attached_to) : Promise.reslove(department);
+		}).then(res => res[workstation].ws.attached_to) : Promise.resolve(department);
 
 		return getDepartment.then(res => {
 				return patchwerk.get('workstation', {
@@ -160,7 +160,7 @@ class SharedEntities {
 		let getDepartment = _.isEmpty(department) ? this.emitter.addTask('workstation', {
 			_action: 'workstation-organization-data',
 			workstation
-		}).then(res => res[workstation].ws.attached_to) : Promise.reslove(department);
+		}).then(res => res[workstation].ws.attached_to) : Promise.resolve(department);
 
 		return getDepartment.then(res => {
 				return patchwerk.get('operator', {
