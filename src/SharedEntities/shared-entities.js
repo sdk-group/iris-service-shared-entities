@@ -172,7 +172,9 @@ class SharedEntities {
 	}
 
 	actionQaQuestions() {
-		return patchwerk.get('qa-questions', {}).then(entities => this.makeResponse('questions', _.keyBy(entities, '@id')));
+		return patchwerk.get('qa-questions', {})
+			.then(questions => questions.get('content'))
+			.then(entities => this.makeResponse('questions', entities));
 	}
 }
 
