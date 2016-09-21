@@ -170,6 +170,10 @@ class SharedEntities {
 			})
 			.then(entities => this.makeResponse('operators', _.keyBy(entities, '@id')))
 	}
+
+	actionQaQuestions() {
+		return patchwerk.get('qa-questions', {}).then(entities => this.makeResponse('questions', _.keyBy(entities, '@id')));
+	}
 }
 
 module.exports = SharedEntities;
