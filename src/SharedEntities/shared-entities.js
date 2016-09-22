@@ -1,8 +1,11 @@
 'use strict'
 
+const emitter = require('global-queue');
+const patchwerk = require('patchwerk')(emitter);
 
 let ServiceApi = require('resource-management-framework')
 	.ServiceApi;
+
 
 class SharedEntities {
 	constructor() {
@@ -32,7 +35,6 @@ class SharedEntities {
 	actionServices({
 		workstation
 	}) {
-		console.log("SE SERVICE");
 		return Promise.props({
 				ws: this.emitter.addTask('workstation', {
 					_action: 'workstation',
@@ -55,7 +57,6 @@ class SharedEntities {
 	actionOffice({
 		workstation
 	}) {
-		console.log("SE OFFICE");
 		return this.emitter.addTask('workstation', {
 				_action: 'workstation-organization-data',
 				workstation
@@ -130,6 +131,50 @@ class SharedEntities {
 				return this.iris.getGlobal('priority_description');
 			})
 			.then(entities => this.makeResponse('priorities', entities));
+	}
+
+	actionWorkstations({
+		workstation,
+		department
+	}) {
+		let getDepartment = _.isEmpty(department) ? this.emitter.addTask('workstation', {
+			_action: 'workstation-organization-data',
+			workstation
+		}).then(res => res[workstation].ws.attached_to) : Promise.resolve(department);
+
+		return getDepartment.then(res => {
+				return patchwerk.get('workstation', {
+					counter: '*',
+					type: ['control-panel', 'terminal', 'reception'],
+					department: res
+				});
+			})
+			.then(entities => this.makeResponse('workstations', _.keyBy(entities, '@id')))
+	}
+
+	actionOperators({
+		workstation,
+		department
+	}) {
+		console.log('SE operators');
+		let getDepartment = _.isEmpty(department) ? this.emitter.addTask('workstation', {
+			_action: 'workstation-organization-data',
+			workstation
+		}).then(res => res[workstation].ws.attached_to) : Promise.resolve(department);
+
+		return getDepartment.then(res => {
+				return patchwerk.get('operator', {
+					counter: '*',
+					department: res
+				});
+			})
+			.then(entities => this.makeResponse('operators', _.keyBy(entities, '@id')))
+	}
+
+	actionQaQuestions() {
+		return patchwerk.get('qa-questions', {})
+			.then(questions => questions.get('content'))
+			.then(entities => this.makeResponse('questions', entities));
 	}
 }
 
