@@ -176,6 +176,17 @@ class SharedEntities {
 			.then(questions => questions.get('content'))
 			.then(entities => this.makeResponse('questions', entities));
 	}
+
+	actionDepartments({
+		workstation,
+		department
+	}) {
+
+		return patchwerk.get('department', {
+				department: department
+			})
+			.then(entities => this.makeResponse('departments', entities));
+	}
 }
 
 module.exports = SharedEntities;
