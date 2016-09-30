@@ -185,7 +185,10 @@ class SharedEntities {
 		return patchwerk.get('department', {
 				department: department
 			})
-			.then(entities => this.makeResponse('departments', entities));
+			.then(result => {
+				let entities = _.keyBy(_.castArray(result), '@id');
+				return this.makeResponse('departments', entities);
+			});
 	}
 }
 
