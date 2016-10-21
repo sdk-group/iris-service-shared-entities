@@ -36,7 +36,7 @@ class SharedEntities {
 		workstation,
 		department
 	}) {
-		let getDepartment = _.isEmpty(department) ? this.emitter.addTask('workstation', {
+		let getDepartment = workstation ? this.emitter.addTask('workstation', {
 				_action: 'workstation-organization-data',
 				workstation: workstation
 			})
@@ -45,9 +45,7 @@ class SharedEntities {
 		return getDepartment.then(department => this.iris.getServiceIds(department))
 			.then((services) => {
 				let keys = services;
-				return this.iris.getService({
-					keys
-				});
+				return this.iris.getEntryTypeless(keys);
 			})
 			.then(entities => this.makeResponse('services', entities));
 	}
