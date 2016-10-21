@@ -33,20 +33,18 @@ class SharedEntities {
 	}
 
 	actionServices({
-		workstation
+		workstation,
+		department
 	}) {
-		return Promise.props({
-				ws: this.emitter.addTask('workstation', {
-					_action: 'workstation',
-					workstation
-				}),
-				services: this.iris.getServiceIds()
+		let getDepartment = _.isEmpty(department) ? this.emitter.addTask('workstation', {
+				_action: 'workstation-organization-data',
+				workstation: workstation
 			})
-			.then(({
-				ws,
-				services
-			}) => {
-				let keys = ws.provides || services;
+			.then(res => res[workstation].ws.attached_to) : Promise.resolve(department);
+
+		return getDepartment.then(department => this.iris.getServiceIds(department))
+			.then((services) => {
+				let keys = services;
 				return this.iris.getService({
 					keys
 				});
@@ -108,7 +106,8 @@ class SharedEntities {
 					timezone: org_merged.org_timezone,
 					current_time: tm.format("x")
 				};
-			}).then(entities => this.makeResponse('timezone', entities));
+			})
+			.then(entities => this.makeResponse('timezone', entities));
 	}
 
 
@@ -138,9 +137,10 @@ class SharedEntities {
 		department
 	}) {
 		let getDepartment = _.isEmpty(department) ? this.emitter.addTask('workstation', {
-			_action: 'workstation-organization-data',
-			workstation
-		}).then(res => res[workstation].ws.attached_to) : Promise.resolve(department);
+				_action: 'workstation-organization-data',
+				workstation
+			})
+			.then(res => res[workstation].ws.attached_to) : Promise.resolve(department);
 
 		return getDepartment.then(res => {
 				return patchwerk.get('workstation', {
@@ -158,9 +158,10 @@ class SharedEntities {
 	}) {
 		console.log('SE operators');
 		let getDepartment = _.isEmpty(department) ? this.emitter.addTask('workstation', {
-			_action: 'workstation-organization-data',
-			workstation
-		}).then(res => res[workstation].ws.attached_to) : Promise.resolve(department);
+				_action: 'workstation-organization-data',
+				workstation
+			})
+			.then(res => res[workstation].ws.attached_to) : Promise.resolve(department);
 
 		return getDepartment.then(res => {
 				return patchwerk.get('operator', {
