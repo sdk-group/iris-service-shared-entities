@@ -9,6 +9,7 @@ let tasks = [];
 
 module.exports = {
 	module: require('./shared-entities.js'),
+	name: 'shared-entities',
 	permissions: [],
 	exposed: true,
 	tasks: tasks,
