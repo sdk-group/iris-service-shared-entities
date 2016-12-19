@@ -37,7 +37,7 @@ class SharedEntities {
 		department
 	}) {
 		let getDepartment = workstation ? this.emitter.addTask('workstation', {
-				_action: 'workstation-organization-data',
+				_action: 'api-workstation-organization-data',
 				workstation: workstation
 			})
 			.then(res => res[workstation].ws.attached_to) : Promise.resolve(department);
@@ -54,7 +54,7 @@ class SharedEntities {
 		workstation
 	}) {
 		return this.emitter.addTask('workstation', {
-				_action: 'workstation-organization-data',
+				_action: 'api-workstation-organization-data',
 				workstation
 			})
 			.then(res => res[workstation])
@@ -71,7 +71,7 @@ class SharedEntities {
 	}) {
 		console.log("SE CHAIN", workstation);
 		return this.emitter.addTask('workstation', {
-				_action: 'workstation-organization-data',
+				_action: 'api-workstation-organization-data',
 				workstation
 			})
 			.then(res => res[workstation])
@@ -89,7 +89,7 @@ class SharedEntities {
 		console.log("SE TIMEZONE");
 
 		return this.emitter.addTask('workstation', {
-				_action: 'workstation-organization-data',
+				_action: 'api-workstation-organization-data',
 				workstation
 			})
 			.then(res => res[workstation])
@@ -115,7 +115,7 @@ class SharedEntities {
 		console.log("SE PRIORITIES");
 
 		return this.emitter.addTask('workstation', {
-				_action: 'workstation-organization-data',
+				_action: 'api-workstation-organization-data',
 				workstation
 			})
 			.then(res => res[workstation])
@@ -135,7 +135,7 @@ class SharedEntities {
 		department
 	}) {
 		let getDepartment = _.isEmpty(department) ? this.emitter.addTask('workstation', {
-				_action: 'workstation-organization-data',
+				_action: 'api-workstation-organization-data',
 				workstation
 			})
 			.then(res => res[workstation].ws.attached_to) : Promise.resolve(department);
@@ -156,7 +156,7 @@ class SharedEntities {
 	}) {
 		console.log('SE operators');
 		let getDepartment = _.isEmpty(department) ? this.emitter.addTask('workstation', {
-				_action: 'workstation-organization-data',
+				_action: 'api-workstation-organization-data',
 				workstation
 			})
 			.then(res => res[workstation].ws.attached_to) : Promise.resolve(department);
