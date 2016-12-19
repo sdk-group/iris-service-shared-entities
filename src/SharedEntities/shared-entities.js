@@ -63,13 +63,7 @@ class SharedEntities {
 				org_addr,
 				org_chain,
 				org_merged
-			}) => {
-				//API hack
-				if (org_merged.has_schedule) {
-					org_merged.has_schedule = _.mapValues(org_merged.has_schedule, sub => _.map(sub, s => _.isString(s) ? s : s.id));
-				}
-				return this.makeResponse('office', org_merged);
-			});
+			}) => this.makeResponse('office', org_merged));
 	}
 
 	actionOrganizationChain({
